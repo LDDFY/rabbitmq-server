@@ -100,7 +100,7 @@ jobs:
           branch_or_tag_name=${GITHUB_REF#refs/*/}
           echo "::set-output name=branch_or_tag_name::$branch_or_tag_name"
       - name: UPLOAD TO S3
-        if: github.ref == 'master' || github.ref == 'v3.9.x' || github.ref == 'v3.8.x' || github.ref == 'v3.7.x' || github.ref == 'testing-github-actions'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/testing-github-actions'
         # https://github.com/marketplace/actions/s3-file-upload
         uses: zdurham/s3-upload-github-action@master
         env:
