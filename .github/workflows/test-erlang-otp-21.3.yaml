@@ -6,12 +6,6 @@ jobs:
     name: checks
     runs-on: ubuntu-18.04
     steps:
-      - name: DEBUG
-        id: debug
-        run: |
-          echo "run_id: ${{ github.run_id }}"
-          echo "run_number: ${{ github.run_number }}"
-          echo "ref: ${{ github.ref }}"
       - name: CHECKOUT REPOSITORY
         uses: actions/checkout@v2
       # https://github.com/marketplace/actions/setup-elixir
@@ -100,7 +94,7 @@ jobs:
           branch_or_tag_name=${GITHUB_REF#refs/*/}
           echo "::set-output name=branch_or_tag_name::$branch_or_tag_name"
       - name: UPLOAD TO S3
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/testing-github-actions'
+        if: github.ref == 'refs/heads/master'
         # https://github.com/marketplace/actions/s3-file-upload
         uses: zdurham/s3-upload-github-action@master
         env:
