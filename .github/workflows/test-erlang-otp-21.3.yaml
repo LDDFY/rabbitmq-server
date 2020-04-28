@@ -6,6 +6,12 @@ jobs:
     name: checks
     runs-on: ubuntu-18.04
     steps:
+      - name: DEBUG
+        id: debug
+        run: |
+          echo "run_id: ${{ github.run_id }}"
+          echo "run_number: ${{ github.run_number }}"
+          echo "ref: ${{ github.ref }}"
       - name: CHECKOUT REPOSITORY
         uses: actions/checkout@v2
       # https://github.com/marketplace/actions/setup-elixir
@@ -91,11 +97,10 @@ jobs:
         # https://github.community/t5/GitHub-Actions/How-can-I-set-an-expression-as-an-environment-variable-at/m-p/41804/highlight/true#M4751
         id: ref
         run: |
-          echo "${{ github.ref }}"
           branch_or_tag_name=${GITHUB_REF#refs/*/}
           echo "::set-output name=branch_or_tag_name::$branch_or_tag_name"
       - name: UPLOAD TO S3
-        if: github.ref == 'master' || github.ref == 'v3.9.x' || github.ref == 'v3.8.x' || github.ref == 'v3.7.x'
+        if: github.ref == 'master' || github.ref == 'v3.9.x' || github.ref == 'v3.8.x' || github.ref == 'v3.7.x' || github.ref == 'testing-github-actions'
         # https://github.com/marketplace/actions/s3-file-upload
         uses: zdurham/s3-upload-github-action@master
         env:
