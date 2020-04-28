@@ -15,11 +15,6 @@ jobs:
           otp-version: 21.3
           # https://github.com/elixir-lang/elixir/releases
           elixir-version: 1.8.0
-      - name: DISPLAY GITHUB ACTIONS RUN ID & NUMBER
-        id: debug
-        run: |
-          echo "run_id: ${{ github.run_id }}"
-          echo "run_number: ${{ github.run_number }}"
       - name: CHECK RABBITMQ COMPONENTS
         # https://github.community/t5/GitHub-Actions/How-can-I-set-an-expression-as-an-environment-variable-at/m-p/41804/highlight/true#M4751
         id: ref
@@ -96,10 +91,11 @@ jobs:
         # https://github.community/t5/GitHub-Actions/How-can-I-set-an-expression-as-an-environment-variable-at/m-p/41804/highlight/true#M4751
         id: ref
         run: |
+          echo "${{ github.ref }}"
           branch_or_tag_name=${GITHUB_REF#refs/*/}
           echo "::set-output name=branch_or_tag_name::$branch_or_tag_name"
       - name: UPLOAD TO S3
-        if: github.ref == 'master' || github.ref == 'v3.9.x' || github.ref == 'v3.8.x' || github.ref == 'v3.7.x' || github.ref == 'testing-github-actions'
+        if: github.ref == 'master' || github.ref == 'v3.9.x' || github.ref == 'v3.8.x' || github.ref == 'v3.7.x'
         # https://github.com/marketplace/actions/s3-file-upload
         uses: zdurham/s3-upload-github-action@master
         env:
